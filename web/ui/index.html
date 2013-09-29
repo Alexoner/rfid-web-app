@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html>
+	<HEAD>
+		<script src="jquery.min.js"></script>
+		<script src="reader.js"></script>
+		<TITLE>RFID application interface</TITLE>
+	</HEAD>
+	<BODY>
+    <div id="container">
+	    <div id="toolbar" style="background-color:Gray;width:50px;height:300px;float:left">
+            <div><button id="scan">Scan</button></div>
+            <div><button id="clear">Clear</button></div>
+            <div><button id="verify">verify</button></div>
+	    </div>
+	    <div id="tag_container" style="width:500px;height:300px;background-color:green;float:left">
+		    <div id="titlebar" style="width:500px;height:20px;background-color:yellow;">
+			    <div id="tag_uid" style="width:250px;float:left">UID</div>
+			    <div id="tag_tid" style="width:250px;float:left">TID</div>
+		    </div>
+            <div id="tag_body"></div>
+		    <div id="content"></div>
+	    </div>
+     </div>
+	
+	
+	</BODY>
+</HTML>

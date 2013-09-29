@@ -1,0 +1,99 @@
+/*************************************************************************
+    > File Name: reader.c
+    > Author: onerhao
+    > Mail: haodu@hustunique.com
+    > Created Time: Thu 22 Aug 2013 06:00:45 PM CST
+ ************************************************************************/
+
+#include "..\query.h"
+
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+//#include "..\mysql\src\certmgmt.h"
+
+#include <mysql.h>
+#include "reader.h"
+#include "query.h"
+//#include "..\mysql\src\certmgmt.h"
+
+/*extern MYSQL *connectdbs();
+extern int queryrow(MYSQL *mysql,char *mac);
+extern int insertrow(MYSQL *mysql,char *uid,char *tid,char *mac);
+extern int delrow(MYSQL *mysql,char *mac);*/
+
+
+int verify(char *mac)
+{
+	MYSQL *mysql=connectdbs();
+	queryrow(mysql,mac);
+	return 0;
+}
+
+int parse_request(char *request)
+{
+	char action[16],arg[32],buf[64];
+	int i,l;
+	if(!request)
+	{
+		printf("error\n");
+		return -1;
+	}
+	if((i=sscanf(request,"%[^&]",buf))!=1)
+	{
+		return -1;
+	}
+	if((i=sscanf(buf,"%*[^=]=%s",action))!=1)
+	{
+		return -1;
+	}
+	sscanf(request,"%*[^&]&%[^&]",buf);
+	sscanf(buf,"%*[^=]=%s",arg);
+	if(strcmp(action,"scan")==0)
+	{
+		scan();
+	}
+	else if(strcmp(action,"read")==0)
+	{
+		readmac((unsigned char*)arg);
+	}
+	else if(strcmp(action,"verify")==0)
+	{
+		verify((unsigned char*)arg);
+	}
+	return 0;
+}
+
+char *get_request()
+{
+	char *request=NULL;
+	char *method=getenv("REQUEST_METHOD");
+	if(!method)
+	{
+		return NULL;
+	}
+	if(strcmp("GET",method)==0)
+	{
+		request=getenv("QUERY_STRING");
+	}
+	return request;
+}
+
+int scan()
+{
+	unsigned char **EPC=NULL,len;
+	len=(unsigned char)inventory(EPC);
+	return 0;
+}
+
+int readmac(unsigned char *epc)
+{
+	unsigned char len=strlen((const char*)epc);
+	getmac(epc,len);
+	return 0;
+}
+
+
+
+
